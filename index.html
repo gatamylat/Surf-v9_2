@@ -81,7 +81,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 .cc{background:var(--card);border-radius:12px;padding:10px 14px;margin:0 16px 5px;box-shadow:var(--sh);position:relative;overflow:hidden;touch-action:pan-y}
 .cc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}.cc.ph::before{background:var(--red)}.cc.pm::before{background:var(--orange)}
 .cc .sl,.cc .sr{position:absolute;top:0;bottom:0;width:50px;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;z-index:2}
-.cc .sl{left:0;background:linear-gradient(90deg,rgba(48,209,88,.4),transparent)}.cc .sr{right:0;background:linear-gradient(-90deg,rgba(255,69,58,.4),transparent)}
+.cc .sl{left:0;background:linear-gradient(90deg,rgba(46,189,82,.7),transparent)}.cc .sr{right:0;background:linear-gradient(-90deg,rgba(232,69,58,.7),transparent)}
 .cc .sl svg{color:var(--green);width:18px;height:18px}.cc .sr svg{color:var(--red);width:18px;height:18px}
 .cc-t{font-size:16px;font-weight:500;line-height:1.35;letter-spacing:-.1px}
 .cc.dn{opacity:.3}.cc.dn .cc-t{text-decoration:line-through;color:var(--t2)}
@@ -124,14 +124,14 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 .r-bar{flex:1;height:4px;background:var(--brd);border-radius:4px;overflow:hidden}.r-bar-fill{height:100%;background:var(--green);border-radius:4px;transition:width .3s}
 .r-cnt{font-size:12px;color:var(--t2);font-weight:600;min-width:36px;text-align:right}
 .r-sec{margin-bottom:16px}
-.r-sec-hdr{font-family:var(--fs);font-size:16px;font-weight:500;color:var(--text);letter-spacing:-.2px;margin-bottom:8px;display:flex;align-items:baseline;justify-content:space-between}
+.r-sec-hdr{font-family:var(--fs);font-size:22px;font-weight:500;color:var(--text);letter-spacing:-.3px;margin-bottom:8px;display:flex;align-items:baseline;justify-content:space-between}
 .r-sec-cnt{font-size:11px;color:var(--t3);font-weight:400}
 .r-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--brd)}
 .r-item:last-child{border-bottom:none}
-.r-chk{width:20px;height:20px;flex-shrink:0;border:2px solid var(--t3);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s cubic-bezier(.34,1.56,.64,1)}.r-chk:active{transform:scale(.85)}
+.r-chk{width:18px;height:18px;flex-shrink:0;border:1.5px solid var(--t3);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s cubic-bezier(.34,1.56,.64,1)}.r-chk:active{transform:scale(.85)}
 .r-chk.on{background:var(--green);border-color:var(--green)}
-.r-chk svg{width:11px;height:11px;color:#fff;opacity:0;transform:scale(0);transition:all .2s cubic-bezier(.34,1.56,.64,1)}.r-chk.on svg{opacity:1;transform:scale(1)}
-.r-txt{flex:1;font-size:16px;line-height:1.35;color:var(--text);outline:none;-webkit-user-modify:read-write-plaintext-only;word-break:break-word}.r-txt:focus{color:var(--accent)}
+.r-chk svg{width:10px;height:10px;color:#fff;opacity:0;transform:scale(0);transition:all .2s cubic-bezier(.34,1.56,.64,1)}.r-chk.on svg{opacity:1;transform:scale(1)}
+.r-txt{flex:1;font-size:16px;line-height:1.35;color:var(--text);outline:none;-webkit-user-modify:read-write-plaintext-only;word-break:break-word}.r-txt:focus{color:var(--accent)}.r-txt:empty:before{content:'Введите текст...';color:var(--t3);pointer-events:none}
 .r-item.checked .r-txt{color:var(--t3);text-decoration:line-through}
 .r-del{width:20px;height:20px;flex-shrink:0;color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s}.r-item:hover .r-del,.r-item:active .r-del{opacity:1}
 .r-del svg{width:12px;height:12px}
@@ -186,7 +186,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 <div class="menu-item" onclick="doImportJSON();toggleMenu()">📥 Импорт JSON</div>
 </div>
 <input type="file" id="imp-file" accept=".json" style="display:none">
-<div class="sub-bar" id="sub-bar"><button class="sub on" data-s="cards" onclick="setSub('cards')">Карточки</button><span class="sub-dot">·</span><button class="sub" data-s="list" onclick="setSub('list')">Список</button></div>
+<div class="sub-bar" id="sub-bar"><button class="sub" data-s="list" onclick="setSub('list')">Список</button><span class="sub-dot">·</span><button class="sub on" data-s="cards" onclick="setSub('cards')">Карточки</button></div>
 <div class="proj-bar" id="proj-bar"><button class="proj-btn" id="proj-btn" onclick="toggleDD()"><span class="pbl" id="pbl">Все проекты</span><span class="pbc" id="pbc"></span><span class="pba">▾</span></button><div class="proj-dd" id="proj-dd"><div class="proj-search"><input type="text" id="proj-si" placeholder="Найти проект..." oninput="filterDD(this.value)" autocomplete="off"></div><div id="proj-list"></div></div></div>
 </div>
 <div class="tsrch" id="tsrch"><input type="text" id="tsrch-i" placeholder="Поиск задач..." oninput="onSearch(this.value)"></div>
@@ -260,8 +260,8 @@ function closeDDOut(e){if(!document.getElementById('proj-bar').contains(e.target
 function closeDD(){ddOpen=false;document.getElementById('proj-btn').classList.remove('open');document.getElementById('proj-dd').classList.remove('open');document.removeEventListener('click',closeDDOut)}
 function filterDD(q){rDD(q)}
 function selProj(n){proj=n;sv();closeDD();render()}
-function openSheet(){document.getElementById('ov').classList.add('on');document.getElementById('sht').classList.add('on');setTimeout(function(){document.getElementById('sh-n').focus()},300)}
-function closeSheet(){document.getElementById('ov').classList.remove('on');document.getElementById('sht').classList.remove('on')}
+function openSheet(){var sht=document.getElementById('sht');if(window.innerWidth>=600){var main=document.querySelector('.app-main');var r=main.getBoundingClientRect();sht.style.left=r.left+'px';sht.style.right=(window.innerWidth-r.right)+'px';sht.style.maxWidth='none'}else{sht.style.left='';sht.style.right='';sht.style.maxWidth='480px'}document.getElementById('ov').classList.add('on');sht.classList.add('on');setTimeout(function(){document.getElementById('sh-n').focus()},300)}
+function closeSheet(){document.getElementById('ov').classList.remove('on');document.getElementById('sht').classList.remove('on');var sht=document.getElementById('sht');sht.style.left='';sht.style.right='';sht.style.maxWidth=''}
 function addProj(){var n=document.getElementById('sh-n').value.trim();if(!n)return;if(P.find(function(p){return p.name===n})){toast('Уже есть');return}P.push({name:n,idx:P.length});save();document.getElementById('sh-n').value='';closeSheet();render();toast('+ '+n)}
 function toggleSearch(){var w=document.getElementById('tsrch'),i=document.getElementById('tsrch-i');if(w.classList.contains('on')){w.classList.remove('on');taskQ='';i.value='';render()}else{w.classList.add('on');i.focus()}}
 function onSearch(q){taskQ=q;render()}
@@ -282,9 +282,9 @@ function saveR(){try{localStorage.setItem('s8r',JSON.stringify(R))}catch(e){}}
 function loadR(){try{var r=localStorage.getItem('s8r');if(r)R=JSON.parse(r)}catch(e){}if(!R.checks)R.checks={};if(!R.lastReset)R.lastReset='';if(!R.morning)R.morning=[];if(!R.evening)R.evening=[];if(!R.morning.length&&!R.evening.length&&!localStorage.getItem('s8r')){R.morning=R_DEFAULTS.morning.slice();R.evening=R_DEFAULTS.evening.slice();saveR()}checkReset()}
 function checkReset(){var now=new Date(),h=now.getHours(),today=now.toISOString().slice(0,10);var resetDay=h<6?new Date(now.getTime()-86400000).toISOString().slice(0,10):today;if(R.lastReset!==resetDay){R.checks={};R.lastReset=resetDay;saveR()}}
 function rTotal(){var done=0,total=0;RBLOCKS.forEach(function(b){var items=R[b.key]||[];total+=items.length;items.forEach(function(it){if(R.checks[it.id])done++})});return{done:done,total:total}}
-function rRitual(){var el=document.getElementById('rf');checkReset();var st=rTotal();var pct=st.total?Math.round(st.done/st.total*100):0;var h='<div class="r-prog"><div class="r-bar"><div class="r-bar-fill" style="width:'+pct+'%"></div></div><div class="r-cnt">'+st.done+'/'+st.total+'</div></div>';RBLOCKS.forEach(function(b){var items=R[b.key]||[];var bc=0;items.forEach(function(it){if(R.checks[it.id])bc++});h+='<div class="r-sec"><div class="r-sec-hdr">'+b.label+'<span class="r-sec-cnt">'+bc+'/'+items.length+'</span></div>';items.forEach(function(it){var ck=R.checks[it.id]?true:false;h+='<div class="r-item'+(ck?' checked':'')+'" data-rid="'+it.id+'"><div class="r-chk'+(ck?' on':'')+'" onclick="tglR(\''+it.id+'\')">'+CHK+'</div><div class="r-txt" contenteditable="true" data-rid="'+it.id+'" data-block="'+b.key+'" onblur="editR(this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur()}">'+esc(it.text)+'</div><div class="r-del" onclick="delR(\''+b.key+'\',\''+it.id+'\')">'+XS+'</div></div>'});h+='<div class="r-add" onclick="addR(\''+b.key+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Добавить</div></div>'});el.innerHTML=h}
+function rRitual(){var el=document.getElementById('rf');checkReset();var st=rTotal();var pct=st.total?Math.round(st.done/st.total*100):0;var h='<div class="r-prog"><div class="r-bar"><div class="r-bar-fill" style="width:'+pct+'%"></div></div><div class="r-cnt">'+st.done+'/'+st.total+'</div></div>';RBLOCKS.forEach(function(b){var items=R[b.key]||[];var bc=0;items.forEach(function(it){if(R.checks[it.id])bc++});h+='<div class="r-sec"><div class="r-sec-hdr">'+b.label+'<span class="r-sec-cnt">'+bc+'/'+items.length+'</span></div>';items.forEach(function(it){var ck=R.checks[it.id]?true:false;h+='<div class="r-item'+(ck?' checked':'')+'" data-rid="'+it.id+'"><div class="r-chk'+(ck?' on':'')+'" onclick="event.stopPropagation();tglR(\''+it.id+'\')" ontouchend="event.stopPropagation();event.preventDefault();tglR(\''+it.id+'\')">'+CHK+'</div><div class="r-txt" contenteditable="true" data-rid="'+it.id+'" data-block="'+b.key+'" onblur="editR(this)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur()}">'+esc(it.text)+'</div><div class="r-del" onclick="delR(\''+b.key+'\',\''+it.id+'\')">'+XS+'</div></div>'});h+='<div class="r-add" onclick="addR(\''+b.key+'\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Добавить</div></div>'});el.innerHTML=h}
 function tglR(id){R.checks[id]=!R.checks[id];saveR();rRitual()}
-function addR(block){if(!R[block])R[block]=[];var id='r'+Date.now()+Math.random().toString(36).slice(2,5);R[block].push({id:id,text:'Новый пункт'});saveR();rRitual();setTimeout(function(){var el=document.querySelector('.r-txt[data-rid="'+id+'"]');if(el){el.focus();var rng=document.createRange();rng.selectNodeContents(el);window.getSelection().removeAllRanges();window.getSelection().addRange(rng)}},50)}
+function addR(block){if(!R[block])R[block]=[];var id='r'+Date.now()+Math.random().toString(36).slice(2,5);R[block].push({id:id,text:''});saveR();rRitual();setTimeout(function(){var el=document.querySelector('.r-txt[data-rid="'+id+'"]');if(el){el.focus()}},50)}
 function editR(el){var id=el.dataset.rid,block=el.dataset.block,text=el.textContent.trim();var items=R[block]||[];var it=items.find(function(x){return x.id===id});if(!it)return;if(!text){delR(block,id);return}it.text=text;saveR()}
 function delR(block,id){R[block]=(R[block]||[]).filter(function(x){return x.id!==id});delete R.checks[id];saveR();rRitual();toast('Удалено')}
 
