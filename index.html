@@ -152,6 +152,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 .tst{position:fixed;bottom:calc(54px + var(--sb));left:50%;transform:translateX(-50%) translateY(12px);background:var(--text);color:#fff;padding:8px 16px;border-radius:100px;font-size:11px;font-weight:500;box-shadow:0 8px 20px rgba(0,0,0,.12);z-index:200;opacity:0;pointer-events:none;transition:all .25s;white-space:nowrap}.tst.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all}.tst a{color:var(--accent);margin-left:8px;cursor:pointer;font-weight:600;text-decoration:none}
 .emp{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 30px;text-align:center}
 .emp h3{font-family:var(--fs);font-size:16px;color:var(--t2);font-weight:400;margin-bottom:3px}.emp p{font-size:11px;color:var(--t3)}
+.menu-dd{position:absolute;top:48px;right:20px;background:var(--card);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:60;overflow:hidden;max-height:0;opacity:0;transition:max-height .2s,opacity .15s;min-width:180px}.menu-dd.open{max-height:200px;opacity:1}
+.menu-item{padding:12px 16px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--brd);white-space:nowrap}.menu-item:last-child{border-bottom:none}.menu-item:active{background:rgba(0,0,0,.03)}
 
 /* ══ DESKTOP/TABLET: >=600px ══ */
 @media(min-width:600px){
@@ -176,7 +178,13 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 <div class="app-main">
 <div class="ptabs" id="ptabs"></div>
 <div class="hdr">
-<div class="hdr-r"><div class="logo"><button class="hb" onclick="openSB()" style="margin-right:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>Sur<b>f</b></div><div class="hdr-b"><button class="hb" onclick="toggleSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg></button><button class="hb" onclick="doExport()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button></div></div>
+<div class="hdr-r"><div class="logo"><button class="hb" onclick="openSB()" style="margin-right:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>Sur<b>f</b></div><div class="hdr-b"><button class="hb" onclick="toggleSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg></button><button class="hb" onclick="toggleMenu()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></div></div>
+<div class="menu-dd" id="menu-dd">
+<div class="menu-item" onclick="doExport();toggleMenu()">📤 Экспорт текст</div>
+<div class="menu-item" onclick="doExportJSON();toggleMenu()">💾 Экспорт JSON</div>
+<div class="menu-item" onclick="doImportJSON();toggleMenu()">📥 Импорт JSON</div>
+</div>
+<input type="file" id="imp-file" accept=".json" style="display:none">
 <div class="vs"><button class="vb on" data-v="tasks" onclick="setView('tasks')">Задачи</button><button class="vb" data-v="notes" onclick="setView('notes')">Заметки</button><button class="vb" data-v="ritual" onclick="setView('ritual')">Ритуал</button></div>
 <div class="sub-bar" id="sub-bar"><button class="sub on" data-s="cards" onclick="setSub('cards')">Карточки</button><span class="sub-dot">·</span><button class="sub" data-s="list" onclick="setSub('list')">Список</button></div>
 <div class="proj-bar" id="proj-bar"><button class="proj-btn" id="proj-btn" onclick="toggleDD()"><span class="pbl" id="pbl">Все проекты</span><span class="pbc" id="pbc"></span><span class="pba">▾</span></button><div class="proj-dd" id="proj-dd"><div class="proj-search"><input type="text" id="proj-si" placeholder="Найти проект..." oninput="filterDD(this.value)" autocomplete="off"></div><div id="proj-list"></div></div></div>
@@ -256,6 +264,11 @@ function addProj(){var n=document.getElementById('sh-n').value.trim();if(!n)retu
 function toggleSearch(){var w=document.getElementById('tsrch'),i=document.getElementById('tsrch-i');if(w.classList.contains('on')){w.classList.remove('on');taskQ='';i.value='';render()}else{w.classList.add('on');i.focus()}}
 function onSearch(q){taskQ=q;render()}
 function doExport(){var groups={};T.forEach(function(t){if(!groups[t.project])groups[t.project]=[];groups[t.project].push(t)});var text='Surf\n\n';Object.keys(groups).sort().forEach(function(p){text+=p+'\n';groups[p].forEach(function(t){text+='  '+(t.done?'✓':'○')+' '+t.text+'\n'});text+='\n'});if(navigator.share)navigator.share({text:text}).catch(function(){});else{var b=new Blob([text],{type:'text/plain'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='surf.txt';a.click();URL.revokeObjectURL(u)}toast('📦')}
+function doExportJSON(){var data={tasks:T,projects:P,ritual:R};var b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='surf-backup.json';a.click();URL.revokeObjectURL(u);toast('💾 JSON')}
+function doImportJSON(){document.getElementById('imp-file').click()}
+document.getElementById('imp-file').addEventListener('change',function(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){try{var data=JSON.parse(ev.target.result);if(data.tasks)T=data.tasks;if(data.projects)P=data.projects;if(data.ritual){R=data.ritual;saveR()}save();toast('📥 Импортировано');setView(view)}catch(err){toast('Ошибка формата')}};reader.readAsText(file);e.target.value=''});
+function toggleMenu(){var m=document.getElementById('menu-dd');m.classList.toggle('open');if(m.classList.contains('open'))setTimeout(function(){document.addEventListener('click',closeMenuOut)},10);else document.removeEventListener('click',closeMenuOut)}
+function closeMenuOut(e){if(!document.getElementById('menu-dd').contains(e.target)){document.getElementById('menu-dd').classList.remove('open');document.removeEventListener('click',closeMenuOut)}}
 var tt;function toast(m,u){var e=document.getElementById('tst');e.innerHTML=m+(u?' <a onclick="undoDel()">Отменить</a>':'');e.classList.add('show');clearTimeout(tt);tt=setTimeout(hideToast,u?4000:1200)}
 function hideToast(){document.getElementById('tst').classList.remove('show')}
 
